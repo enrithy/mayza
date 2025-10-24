@@ -1,4 +1,7 @@
+local VirtualInputManager = cloneref(game:GetService('VirtualInputManager'))
+local UserInputService = cloneref(game:GetService('UserInputService'))
 local HttpService = cloneref(game:GetService('HttpService'))
+local Players = cloneref(game:GetService('Players'))
 
 local Connections = {}
 local Config, Fetcher = {}, {}
@@ -64,6 +67,27 @@ local window = Fluent:CreateWindow({
     Theme = 'Darker',
     MinimizeKey = Enum.KeyCode.End
 })
+
+if UserInputService.TouchEnabled then
+    local mobile_hidden_gui = Instance.new('ScreenGui')
+    local mobile_button = Instance.new('ImageButton')
+
+    mobile_hidden_gui.Parent = Players.LocalPlayer.PlayerGui
+    mobile_hidden_gui.Name = 'mobile_hidden'
+    mobile_hidden_gui.ResetOnSpawn = false
+
+    mobile_button.Position = UDim2.new(0, 50, 0, 50)
+    mobile_button.Image = 'rbxassetid://10723346959'
+    mobile_button.Size = UDim2.fromOffset(44, 44)
+    mobile_button.Name = 'mobile_hidden_button'
+    mobile_button.Parent = mobile_hidden_gui
+    mobile_button.BackgroundTransparency = 1
+
+    mobile_button.MouseButton1Click:Connect(function()
+        VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.End, false, game)
+        VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.End, false, game)
+    end)
+end
 
 local function signals(__connection)
     function __connection:create_button(button)
