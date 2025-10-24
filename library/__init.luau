@@ -1,4 +1,3 @@
-local VirtualInputManager = cloneref(game:GetService('VirtualInputManager'))
 local UserInputService = cloneref(game:GetService('UserInputService'))
 local HttpService = cloneref(game:GetService('HttpService'))
 local Players = cloneref(game:GetService('Players'))
@@ -83,9 +82,10 @@ if UserInputService.TouchEnabled then
     mobile_button.Parent = mobile_hidden_gui
     mobile_button.BackgroundTransparency = 1
 
-    mobile_button.MouseButton1Click:Connect(function()
-        VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.End, false, game)
-        VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.End, false, game)
+    mobile_button.MouseButton1Click:Connect(function(state)
+        state = not state
+
+        window.Visible = state
     end)
 end
 
